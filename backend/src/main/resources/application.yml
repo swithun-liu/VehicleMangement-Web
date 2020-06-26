@@ -1,0 +1,17 @@
+spring:
+    datasource:
+        url: jdbc:sqlserver://localhost:1433;databaseName=Vehicle
+        username: sa
+        password: 12345
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        # driverClassName: oracle.jdbc.driver.OracleDriver
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+    # jpa:
+        # hibernate:            
+            # show-sql: true
+            # ddl-auto: create-drop
+server:
+  port: 8081
