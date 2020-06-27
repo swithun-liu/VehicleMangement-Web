@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.lancer.backend.repository.LoginRepository;
+import com.lancer.backend.Dao.LoginRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
