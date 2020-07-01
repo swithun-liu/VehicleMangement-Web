@@ -1,4 +1,4 @@
-package com.lancer.backend.repository;
+package com.lancer.backend.Dao;
 
 import com.lancer.backend.entity.Driverbean;
 
