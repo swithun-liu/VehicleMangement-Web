@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class DriverInfoController {
@@ -20,8 +21,12 @@ public class DriverInfoController {
     private DriverServImpl driverServ = new DriverServImpl();
 
     @GetMapping("/driverinfo")
-    public List<Driver> findAll() {
-        return driverServ.findAll();
+    public List<Driver> findAll(@RequestParam(name = "query") String info) {
+        if (info.length()>0) {
+            return driverServ.findByDriverNameLike("%"+info+"%");
+        } else {
+            return driverServ.findAll();
+        }
     }
 
     @PostMapping(value = "/driverinfo/adduser")
@@ -38,28 +43,27 @@ public class DriverInfoController {
     public Driver getOneforEdit(@PathVariable("id") Long param) {
         if (param == null) {
             return null;
-        } else{
+        } else {
             return driverServ.getOnebyId(param);
         }
     }
 
-    @PostMapping(value="/driverinfo/editinfo")
+    @PostMapping(value = "/driverinfo/editinfo")
     public String updateDriverInfo(@RequestBody Driver entity) {
-       if (driverServ.update(entity)!=null){
-           return "成功";
-       }else{
-           return "失败";
-       }
-    }
-    
-    @DeleteMapping(value = "/driverinfo/delete/{id}")
-    public String deleteDriver(@PathVariable("id") Long param){
-        if(driverServ.delete(param)){
+        if (driverServ.update(entity) != null) {
             return "成功";
-        }else{
+        } else {
             return "失败";
         }
     }
-    
+
+    @DeleteMapping(value = "/driverinfo/delete/{id}")
+    public String deleteDriver(@PathVariable("id") Long param) {
+        if (driverServ.delete(param)) {
+            return "成功";
+        } else {
+            return "失败";
+        }
+    }
 
 }

@@ -42,9 +42,12 @@ public class DriverServImpl implements DriverServ {
             driverInfoRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            // TODO: handle exception
             return false;
         }
+    }
+    @Override
+    public List<Driver> findByDriverNameLike(String name){
+        return driverInfoRepository.findByDriverNameLike(name);
     }
 
 }

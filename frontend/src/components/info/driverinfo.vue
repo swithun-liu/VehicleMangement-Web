@@ -4,8 +4,8 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>
         </el-col>
 
@@ -153,6 +153,7 @@ export default {
   methods: {
     getUserList() {
       const _this = this;
+      console.log(this.queryInfo.query)
       this.$http
         .get("/driverinfo", {
           params: this.queryInfo
@@ -166,7 +167,7 @@ export default {
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
     },
-    eidtDialogClosed() {
+    editDialogClosed() {
       this.$refs.eidtFormRef.resetFiles();
     },
     // 显示 编辑 对话框

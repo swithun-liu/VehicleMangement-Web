@@ -11,4 +11,5 @@ public interface DriverServ {
     public Driver getOnebyId(Long id);
     public Driver update(Driver entity);
     public boolean delete(Long id);
+    public List<Driver> findByDriverNameLike(String name);
 }
