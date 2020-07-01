@@ -9,9 +9,9 @@ import javax.persistence.TableGenerator;
 
 @Entity
 public class Entitytest {
-    @TableGenerator(name = "entity_test_gene", table = "entity_test", initialValue = 1000)
+    @TableGenerator(name = "entity_test_gene", table = "entity_test", initialValue = 1000,pkColumnName = "id")
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "entiry_test_gene")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "entiry_test_gene")
     @Id
     private long id;
 

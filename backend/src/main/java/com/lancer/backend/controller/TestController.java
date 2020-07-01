@@ -3,7 +3,7 @@ package com.lancer.backend.controller;
 import java.util.List;
 
 import com.lancer.backend.Dao.DriverInfoRepository;
-import com.lancer.backend.entity.Driverbean;
+import com.lancer.backend.entity.Driver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class TestController {
     private DriverInfoRepository driverInfoRepository;
 
     @GetMapping("/test")
-    public List<Driverbean> findAll() {
+    public List<Driver> findAll() {
         return driverInfoRepository.findAll();
     }
 }

@@ -67,47 +67,62 @@ export default {
           id: 1,
           children: [
             {
-              name: "司机列表",
+              name: "司机管理",
               id: 1,
               path: "driverinfo"
             },
             {
-              name: "菜单一二",
+              name: "车辆管理",
               id: 2,
-              path: "dirverinfo1"
-            }
+              path: "carinfo"
+            },
+            {
+              name: "车辆维护",
+              id: 3,
+              path: "maintenanceinfo"
+            },
+            {
+              name: "车辆费用",
+              id: 4,
+              path: "vehiclecostinfo"
+            },
           ]
         },
         {
-          name: "菜单二",
+          name: "订单管理",
           id: 2,
           children: [
             {
-              name: "菜单二一",
+              name: "运输订单",
               id: 1,
-              path: "dirverinfo2"
+              path: "order"
             },
             {
-              name: "菜单二二",
+              name: "调度单",
               id: 2,
               path: "dirverinfo3"
-            }
+            },
+            {
+              name: "运输单",
+              id: 4,
+              path: "dirverinfo2"
+            },
           ]
         },
         {
-          name: "菜单三",
+          name: "事务处理",
           id: 3,
           children: [
             {
-              name: "菜单三一",
+              name: "回车报账",
               id: 1,
               path: "dirverinfo4"
             },
             {
-              name: "菜单三二",
-              id: 2,
-              path: "dirverinfo5"
-            }
+              name: "出车登记",
+              id: 3,
+              path: "dirverinfo2"
+            },
           ]
         }
       ]

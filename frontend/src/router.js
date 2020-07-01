@@ -3,7 +3,11 @@ import Router from 'vue-router'
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 import Welcome from './components/Welcom.vue'
-import Dirverinfo from './components/driver/driverinfo.vue'
+import Dirverinfo from './components/info/driverinfo.vue'
+import Carinfo from './components/info/carinfo.vue'
+import Maintenanceinfo from './components/info/maintenanceinfo.vue'
+import Vehiclecostinfo from './components/info/vehiclecostinfo.vue'
+import Order from './components/list/order.vue'
 
 Vue.use(Router)
 
@@ -19,6 +23,14 @@ const router = new Router({
                     path: '/welcome', component: Welcome,
                 }, {
                     path: '/driverinfo', component: Dirverinfo,
+                },{
+                    path: '/carinfo',component: Carinfo
+                },{
+                    path: '/maintenanceinfo',component: Maintenanceinfo
+                },{
+                    path:'/vehiclecostinfo',component: Vehiclecostinfo
+                },{
+                    path: '/order',component: Order
                 }
             ]
         }
