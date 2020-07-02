@@ -2,11 +2,17 @@ package com.lancer.backend.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import lombok.Getter;
@@ -24,6 +30,7 @@ import java.sql.Date;
 @Getter
 @ToString
 @Entity
+@Table(name = "Driver")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 public class Driver  implements Serializable {
 

@@ -18,6 +18,8 @@ public class HomeController {
     @Autowired
     private LoginRepository loginRepository;
 
+    /**登录 */
+
     @PostMapping(value = "/")
     public String login(@RequestBody Map<String, String> map) {
         String id = map.get("username").toString();

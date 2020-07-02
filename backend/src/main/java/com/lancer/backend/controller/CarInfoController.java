@@ -3,8 +3,8 @@ package com.lancer.backend.controller;
 import java.util.Date;
 import java.util.List;
 
-import com.lancer.backend.entity.Driver;
-import com.lancer.backend.service.Impl.DriverServImpl;
+import com.lancer.backend.entity.Car;
+import com.lancer.backend.service.Impl.CarServImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-public class DriverInfoController {
+public class CarInfoController {
 
     @Autowired
-    private DriverServImpl driverServ = new DriverServImpl();
+    private CarServImpl carServ;
 
     /**
      * 根据参数获取司机信息
+     * 
      * @param info
      * @return
      */
-    @GetMapping("/driverinfo")
-    public List<Driver> findAll(@RequestParam(name = "query") String info) {
-        if (info.length()>0) {
-            return driverServ.findByDriverNameLike("%"+info+"%");
+    @GetMapping("/carinfo")
+    public List<Car> findAll(@RequestParam(name = "query") Long info) {
+        if (info!=null) {
+            return carServ.findByCarIdLike(info);
         } else {
-            return driverServ.findAll();
+            return carServ.findAll();
         }
     }
 
@@ -40,11 +41,11 @@ public class DriverInfoController {
      * @param entity
      * @return
      */
-    @PostMapping(value = "/driverinfo/adduser")
-    public String addOne(@RequestBody Driver entity) {
-        entity.setDriverId(2);
-        entity.setEntryDate(new java.sql.Date(new Date().getTime()));
-        if (driverServ.AddOne(entity) != null) {
+    @PostMapping(value = "/carinfo/adduser")
+    public String addOne(@RequestBody Car entity) {
+        entity.setCarId((long) 2);
+        entity.setPurchaseDate(new java.sql.Date(new Date().getTime()));
+        if (carServ.AddOne(entity) != null) {
             return "成功";
         } else {
             return "失败";
@@ -56,12 +57,12 @@ public class DriverInfoController {
      * @param param
      * @return
      */
-    @GetMapping(value = "/driverinfo/edit/{id}")
-    public Driver getOneforEdit(@PathVariable("id") Long param) {
+    @GetMapping(value = "/carinfo/edit/{id}")
+    public Car getOneforEdit(@PathVariable("id") Long param) {
         if (param == null) {
             return null;
         } else {
-            return driverServ.getOnebyId(param);
+            return carServ.getOnebyId(param);
         }
     }
 
@@ -70,9 +71,9 @@ public class DriverInfoController {
      * @param entity
      * @return
      */
-    @PostMapping(value = "/driverinfo/editinfo")
-    public String updateDriverInfo(@RequestBody Driver entity) {
-        if (driverServ.update(entity) != null) {
+    @PostMapping(value = "/carinfo/editinfo")
+    public String updateCarInfo(@RequestBody Car entity) {
+        if (carServ.update(entity) != null) {
             return "成功";
         } else {
             return "失败";
@@ -84,9 +85,9 @@ public class DriverInfoController {
      * @param param
      * @return
      */
-    @DeleteMapping(value = "/driverinfo/delete/{id}")
+    @DeleteMapping(value = "/carinfo/delete/{id}")
     public String deleteDriver(@PathVariable("id") Long param) {
-        if (driverServ.delete(param)) {
+        if (carServ.delete(param)) {
             return "成功";
         } else {
             return "失败";
