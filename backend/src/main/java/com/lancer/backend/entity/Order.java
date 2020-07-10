@@ -57,6 +57,15 @@ public class Order  implements Serializable {
    	@Column(name = "ClearingForm" )
 	private String clearingForm;
 
+	@Column(name = "Distribute")
+	private int distribute;
+
+	@Column(name = "Distance")
+	private int distance;
+
+	@Column(name = "Weight")
+	private int weight;
+
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
@@ -132,4 +141,36 @@ public class Order  implements Serializable {
 	public void setClearingForm(String clearingForm) {
 		this.clearingForm = clearingForm;
 	}
+
+	public int getDistribute() {
+		return distribute;
+	}
+
+	public void setDistribute(int distribute) {
+		this.distribute = distribute;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Order() {
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
 }

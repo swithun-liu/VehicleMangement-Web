@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.lancer.backend.entity.Driver;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 
 public interface DriverServ {
     public List<Driver> findAll();
@@ -12,4 +16,6 @@ public interface DriverServ {
     public Driver update(Driver entity);
     public boolean delete(Long id);
     public List<Driver> findByDriverNameLike(String name);
+    public Page<Driver> findAllbyPage(Example<Driver> example, PageRequest pageRequest);
+    public Page<Driver> findAll(PageRequest pageRequest);
 }

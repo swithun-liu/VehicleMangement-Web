@@ -42,6 +42,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination background layout="prev, pager, next" :total="totalPage"  @current-change="handleCurrentChange"></el-pagination>,
     </el-card>
 
     <!--添加 弹出来的对话框-->
@@ -123,10 +124,11 @@
 export default {
   data() {
     return {
+      totalPage: 0,
       queryInfo: {
         query: "",
         pagenum: 1,
-        pagesize: 2
+        pagesize: 10
       },
       carqueryInfo: {
         query: "",
@@ -170,8 +172,8 @@ export default {
           params: this.queryInfo
         })
         .then(res => {
-          console.log(res.data);
-          _this.userlist = res.data;
+          _this.totalPage=res.data.totalElements;
+          _this.userlist = res.data.content;
         });
     },
     // 获取所有车辆
@@ -267,6 +269,10 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    handleCurrentChange(val){
+      this.queryInfo.pagenum=val;
+    this.getUserList();
     }
   }
 };

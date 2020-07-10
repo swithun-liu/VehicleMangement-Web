@@ -7,8 +7,11 @@ spring:
         # driverClassName: oracle.jdbc.driver.OracleDriver
     jpa:
         show-sql: true
-        hibernate:
-            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+                ddl-auto: update
+        
     # jpa:
         # hibernate:            
             # show-sql: true

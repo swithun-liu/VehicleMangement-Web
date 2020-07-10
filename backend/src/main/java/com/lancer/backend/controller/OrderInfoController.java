@@ -3,6 +3,7 @@ package com.lancer.backend.controller;
 import java.util.Date;
 import java.util.List;
 
+import com.lancer.backend.entity.DistributePlan;
 import com.lancer.backend.entity.Order;
 import com.lancer.backend.service.Impl.OrderServImpl;
 
@@ -29,7 +30,7 @@ public class OrderInfoController {
      */
     @GetMapping("/orderinfo")
     private List<Order> findAll(@RequestParam(name = "query") String info){
-        if(info.length()!=0){
+        if(info!=null&&info.length()!=0){
             return orderServImpl.findByOrderIdLike(info);
         }else{
             return orderServImpl.findAll();
@@ -92,5 +93,13 @@ public class OrderInfoController {
         }else{
             return "失败";
         }
+    }
+
+    /**
+     * 返回针对订单计算出来的分配方案
+     */
+    @PostMapping(value = "/orderinfo/distribute")
+    public DistributePlan distributeOrder(@RequestBody Order entity){
+        return null;
     }
 }

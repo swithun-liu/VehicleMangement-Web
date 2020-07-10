@@ -1,12 +1,13 @@
 package com.lancer.backend.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import com.lancer.backend.entity.Car;
 import com.lancer.backend.service.Impl.CarServImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +29,13 @@ public class CarInfoController {
      * @return
      */
     @GetMapping("/carinfo")
-    public List<Car> findAll(@RequestParam(name = "query") Long info) {
+    public Page<Car> findAll(@RequestParam(name = "query") Long info) {
+        PageRequest pageable = PageRequest.of(0, 4);
         if (info!=null) {
-            return carServ.findByCarIdLike(info);
+            return carServ.findAllbyPage(pageable);
+            // return carServ.findByCarIdLike(info);
         } else {
-            return carServ.findAll();
+            return carServ.findAllbyPage(pageable);
         }
     }
 
@@ -43,7 +46,7 @@ public class CarInfoController {
      */
     @PostMapping(value = "/carinfo/adduser")
     public String addOne(@RequestBody Car entity) {
-        entity.setCarId((long) 2);
+        // entity.setCarId((long) 2);
         entity.setPurchaseDate(new java.sql.Date(new Date().getTime()));
         if (carServ.AddOne(entity) != null) {
             return "成功";

@@ -1,12 +1,16 @@
 package com.lancer.backend.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import com.lancer.backend.entity.Driver;
 import com.lancer.backend.service.Impl.DriverServImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,20 +27,31 @@ public class DriverInfoController {
 
     /**
      * 根据参数获取司机信息
+     * 
      * @param info
      * @return
      */
     @GetMapping("/driverinfo")
-    public List<Driver> findAll(@RequestParam(name = "query") String info) {
-        if (info.length()>0) {
-            return driverServ.findByDriverNameLike("%"+info+"%");
+    public Page<Driver> findAll(@RequestParam(name = "query") String info, @RequestParam(name = "pagenum") int pagenum,
+            @RequestParam(name = "pagesize") int pagesize) {
+        PageRequest pageRequest = PageRequest.of(pagenum-1, pagesize);
+        if (info.length() > 0) {
+            // return driverServ.findByDriverNameLike("%"+info+"%");
+            Driver driver = new Driver();
+            driver.setDriverId(115);
+            driver.setDriverName(info);
+            ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("driverName",GenericPropertyMatchers.contains()).withIgnorePaths("driverId");
+            Example<Driver> example = Example.of(driver, exampleMatcher);
+            return driverServ.findAllbyPage(example, pageRequest);
         } else {
-            return driverServ.findAll();
+            // return driverServ.findAll();
+            return driverServ.findAll(pageRequest);
         }
     }
 
     /**
      * 添加司机
+     * 
      * @param entity
      * @return
      */
@@ -53,6 +68,7 @@ public class DriverInfoController {
 
     /**
      * 根据id获取司机信息
+     * 
      * @param param
      * @return
      */
@@ -67,6 +83,7 @@ public class DriverInfoController {
 
     /**
      * 编辑司机信息
+     * 
      * @param entity
      * @return
      */
@@ -81,6 +98,7 @@ public class DriverInfoController {
 
     /**
      * 删除司机
+     * 
      * @param param
      * @return
      */

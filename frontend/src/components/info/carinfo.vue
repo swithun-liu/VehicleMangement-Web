@@ -24,7 +24,11 @@
         <el-table-column label="损耗" prop="loss"></el-table-column>
         <el-table-column label="购买价格" prop="price"></el-table-column>
         <el-table-column label="购买日期" prop="purchaseDate"></el-table-column>
-        <el-table-column label="是否已分配" prop="hasOut"></el-table-column>
+        <el-table-column label="是否已分配" prop="hasOut">
+          <template slot-scope="scope1">
+            {{scope1.row.hasOut==false?'否':'是'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
             <el-button
@@ -158,8 +162,10 @@ export default {
           params: this.queryInfo
         })
         .then(res => {
-          console.log(res.data)
-          _this.userlist = res.data
+          console.log("返回结果");
+          console.log(res.data.content)
+          console.log("返回结果结束");
+          _this.userlist = res.data.content
           console.log(_this.userlist)
         });
     },

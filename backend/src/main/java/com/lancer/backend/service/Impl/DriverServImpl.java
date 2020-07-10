@@ -7,6 +7,9 @@ import com.lancer.backend.entity.Driver;
 import com.lancer.backend.service.DriverServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,9 +48,22 @@ public class DriverServImpl implements DriverServ {
             return false;
         }
     }
+
     @Override
-    public List<Driver> findByDriverNameLike(String name){
+    public List<Driver> findByDriverNameLike(String name) {
         return driverInfoRepository.findByDriverNameLike(name);
     }
+
+    @Override
+    public Page<Driver> findAllbyPage(Example<Driver> example,PageRequest pageRequest) {
+        return driverInfoRepository.findAll(example, pageRequest);
+    }
+
+
+    @Override
+    public Page<Driver> findAll(PageRequest pageRequest) {
+        return driverInfoRepository.findAll(pageRequest);
+    }
+
 
 }

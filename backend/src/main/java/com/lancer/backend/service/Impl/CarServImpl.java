@@ -7,10 +7,12 @@ import com.lancer.backend.entity.Car;
 import com.lancer.backend.service.CarServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CarServImpl implements  CarServ{
+public class CarServImpl implements CarServ {
 
     @Autowired
     private CarInfoRepository carInfoRepository;
@@ -45,9 +47,15 @@ public class CarServImpl implements  CarServ{
             return false;
         }
     }
+
     @Override
-    public List<Car > findByCarIdLike(Long id){
+    public List<Car> findByCarIdLike(Long id) {
         return carInfoRepository.findByCarIdLike(id);
+    }
+
+    @Override
+    public Page<Car> findAllbyPage(PageRequest pageRequest) {
+        return carInfoRepository.findAll(pageRequest);
     }
 
 }
