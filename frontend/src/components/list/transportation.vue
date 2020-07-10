@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>运输订单</h3>
+    <h3>运输单</h3>
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -10,34 +10,36 @@
         </el-col>
 
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible=true">添加新订单</el-button>
+          <el-button type="primary" @click="addDialogVisible=true">添加新运输单</el-button>
         </el-col>
       </el-row>
 
       <el-table :data="userlist" border stripe>
         <el-table-column type="index"></el-table-column>
+        <el-table-column label="运输单id" prop="transportationId"></el-table-column>
         <el-table-column label="订单id" prop="orderId"></el-table-column>
-        <el-table-column label="托运方" prop="shipper"></el-table-column>
-        <el-table-column label="运费是支付方" prop="freightPayer"></el-table-column>
-        <el-table-column label="运费" prop="freight"></el-table-column>
-        <el-table-column label="联系人" prop="contact"></el-table-column>
-        <el-table-column label="装货地址" prop="loadingAddress"></el-table-column>
-        <el-table-column label="卸货地址" prop="unloadingAddress"></el-table-column>
+        <el-table-column label="单价" prop="price"></el-table-column>
         <el-table-column label="计费方式" prop="chargeMode"></el-table-column>
-        <el-table-column label="结算方式" prop="clearingForm"></el-table-column>
+        <el-table-column label="损耗比" prop="lossRario"></el-table-column>
+        <el-table-column label="损耗金额" prop="lossAmount"></el-table-column>
+        <el-table-column label="往返" prop="roundTrip"></el-table-column>
+        <el-table-column label="加油费用" prop="oilCost"></el-table-column>
+        <el-table-column label="载重公里" prop="loadMieage"></el-table-column>
+        <el-table-column label="空车公里" prop="noloadMileage"></el-table-column>
+        <el-table-column label="油耗" prop="fuelConsumption"></el-table-column>
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
             <el-button 
               type="primary" 
               icon="el-icon-edit" 
               size="mini"
-              @click="showEditDialog(scope.row.orderId)"
+              @click="showEditDialog(scope.row.transportationId)"
             ></el-button>
             <el-button 
               type="danger" 
               icon="el-icon-delete" 
               size="mini"
-              @click="removeOrderById(scope.row.orderId)"
+              @click="removeTransportationById(scope.row.transportationId)"
             ></el-button>
             <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
           </template>
@@ -45,83 +47,95 @@
       </el-table>
     </el-card>
 
-    <!--添加订单弹出来的对话框-->
+    <!--添加运输单弹出来的对话框-->
     <el-dialog
-      title="添加订单"
+      title="添加运输单"
       :visible.sync="addDialogVisible"
       width="50%"
       @close="addDialogClosed"
     >
       <!--form表单-->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
-        <el-form-item label="托运方" prop="shipper">
-          <el-input v-model="addForm.shipper"></el-input>
+        <el-form-item label="订单id" prop="orderId">
+          <el-input v-model="addForm.orderId"></el-input>
         </el-form-item>
-        <el-form-item label="运费支付方" prop="freightPayer">
-          <el-input v-model="addForm.freightPayer"></el-input>
-        </el-form-item>
-        <el-form-item label="运费" prop="freight">
-          <el-input v-model="addForm.freight"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="contact">
-          <el-input v-model="addForm.contact"></el-input>
-        </el-form-item>
-        <el-form-item label="装货地址" prop="loadingAddress">
-          <el-input v-model="addForm.loadingAddress"></el-input>
-        </el-form-item>
-        <el-form-item label="卸货地址" prop="unloadingAddress">
-          <el-input v-model="addForm.unloadingAddress"></el-input>
+        <el-form-item label="单价" prop="price">
+          <el-input v-model="addForm.price"></el-input>
         </el-form-item>
         <el-form-item label="计费方式" prop="chargeMode">
           <el-input v-model="addForm.chargeMode"></el-input>
         </el-form-item>
-        <el-form-item label="结算方式" prop="clearingForm">
-          <el-input v-model="addForm.clearingForm"></el-input>
+        <el-form-item label="损耗比" prop="lossRario">
+          <el-input v-model="addForm.lossRario"></el-input>
+        </el-form-item>
+        <el-form-item label="损耗金额" prop="lossAmount">
+          <el-input v-model="addForm.lossAmount"></el-input>
+        </el-form-item>
+        <el-form-item label="往返" prop="roundTrip">
+          <el-input v-model="addForm.roundTrip"></el-input>
+        </el-form-item>
+        <el-form-item label="加油费用" prop="oilCost">
+          <el-input v-model="addForm.oilCost"></el-input>
+        </el-form-item>
+        <el-form-item label="载重公里" prop="loadMieage">
+          <el-input v-model="addForm.loadMieage"></el-input>
+        </el-form-item>
+        <el-form-item label="空车公里" prop="noloadMileage">
+          <el-input v-model="addForm.noloadMileage"></el-input>
+        </el-form-item>
+        <el-form-item label="油耗" prop="fuelConsumption">
+          <el-input v-model="addForm.fuelConsumption"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible= false">取 消</el-button>
-        <el-button type="primary" @click="addOrder()">确 定</el-button>
+        <el-button type="primary" @click="addTransportation()">确 定</el-button>
       </span>
     </el-dialog>
 
-     <!--修改订单弹出来的对话框-->
+     <!--修改运输单弹出来的对话框-->
     <el-dialog
-      title="修改订单"
+      title="修改运输单"
       :visible.sync="editDialogVisible"
       width="50%"
       @close="editDialogClosed"
     >
       <!--form表单-->
       <el-form :model="editForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
-        <el-form-item label="托运方" prop="shipper">
-          <el-input v-model="editForm.shipper"></el-input>
+        <el-form-item label="订单id" prop="orderId">
+          <el-input v-model="editForm.orderId"></el-input>
         </el-form-item>
-        <el-form-item label="运费支付方" prop="freightPayer">
-          <el-input v-model="editForm.freightPayer"></el-input>
-        </el-form-item>
-        <el-form-item label="运费" prop="freight">
-          <el-input v-model="editForm.freight"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="contact">
-          <el-input v-model="editForm.contact"></el-input>
-        </el-form-item>
-        <el-form-item label="装货地址" prop="loadingAddress">
-          <el-input v-model="editForm.loadingAddress"></el-input>
-        </el-form-item>
-        <el-form-item label="卸货地址" prop="unloadingAddress">
-          <el-input v-model="editForm.unloadingAddress"></el-input>
+        <el-form-item label="单价" prop="price">
+          <el-input v-model="editForm.price"></el-input>
         </el-form-item>
         <el-form-item label="计费方式" prop="chargeMode">
           <el-input v-model="editForm.chargeMode"></el-input>
         </el-form-item>
-        <el-form-item label="结算方式" prop="clearingForm">
-          <el-input v-model="editForm.clearingForm"></el-input>
+        <el-form-item label="损耗比" prop="lossRario">
+          <el-input v-model="editForm.lossRario"></el-input>
+        </el-form-item>
+        <el-form-item label="损耗金额" prop="lossAmount">
+          <el-input v-model="editForm.lossAmount"></el-input>
+        </el-form-item>
+        <el-form-item label="往返" prop="roundTrip">
+          <el-input v-model="editForm.roundTrip"></el-input>
+        </el-form-item>
+        <el-form-item label="加油费用" prop="oilCost">
+          <el-input v-model="editForm.oilCost"></el-input>
+        </el-form-item>
+        <el-form-item label="载重公里" prop="loadMieage">
+          <el-input v-model="editForm.loadMieage"></el-input>
+        </el-form-item>
+        <el-form-item label="空车公里" prop="noloadMileage">
+          <el-input v-model="editForm.noloadMileage"></el-input>
+        </el-form-item>
+        <el-form-item label="油耗" prop="fuelConsumption">
+          <el-input v-model="editForm.fuelConsumption"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible= false">取 消</el-button>
-        <el-button type="primary" @click="editOrder()">确 定</el-button>
+        <el-button type="primary" @click="editTransportation()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -144,14 +158,16 @@ export default {
       editDialogVisible: false,
       //添加用户表单数据
       addForm: {
-        shipper: "",
-        freightPayer: "",
-        freight: "",
-        contact: "",
-        loadingAddress: "",
-        unloadingAddress: "",
+        orderId: "",
+        price: "",
         chargeMode: "",
-        cleaningform: ""
+        lossRario: "",
+        lossAmount: "",
+        roundTrip: "",
+        oilCost: "",
+        loadMieage: "",
+        noloadMileage: "",
+        fuelConsumption: ""
       },
       editForm:{},
       //添加表单验证规则
@@ -165,7 +181,7 @@ export default {
     getUserList() {
       const _this = this;
       this.$http
-        .get("/orderinfo", {
+        .get("/transportationinfo", {
           params: this.queryInfo
         })
         .then(res => {
@@ -181,15 +197,15 @@ export default {
     //显示编辑对话框
     async showEditDialog(id){
       const _this=this;
-      await this.$http.get("/orderinfo/edit/" + id).then(res=>{
+      await this.$http.get("/transportationinfo/edit/" + id).then(res=>{
         _this.editForm = res.data;
       });
       this.editDialogVisible = true;
     },
-    //添加订单
-    addOrder() {
+    //添加运输单
+    addTransportation() {
       const _this=this;
-      this.$http.post("/orderinfo/addorderinfo",this.addForm).then(res =>{
+      this.$http.post("/transportationinfo/addtransportationinfo",this.addForm).then(res =>{
         if(res.data == "成功"){
           _this.$message.success("添加成功");
           _this.addDialogVisible = false;
@@ -200,10 +216,10 @@ export default {
         }
       });
     },
-    // 编辑订单确认
-    editOrder(){
+    // 编辑运输单确认
+    editTransportation(){
       const _this=this;
-      this.$http.post("/orderinfo/editinfo", this.editForm).then(res =>{
+      this.$http.post("/transportationinfo/editinfo", this.editForm).then(res =>{
         if(res.data == "成功"){
           console.log(res.data);
           _this.$message.success("修改成功");
@@ -215,15 +231,15 @@ export default {
         }
       });
     },
-    //删除订单
-    removeOrderById(id){
+    //删除运输单
+    removeTransportationById(id){
       const _this=this;
-      this.$confirm("此操作将永久删除该订单, 是否继续?","提示",{
+      this.$confirm("此操作将永久删除该运输单, 是否继续?","提示",{
         confirmButtonText:"确定",
         cancelButtonText:"取消",
         type:"warning"
       }).then(()=>{
-        this.$http.delete("orderinfo/delete/" + id).then(res=>{
+        this.$http.delete("transportationinfo/delete/" + id).then(res=>{
           if(res.data == "成功"){
             this.$message({
               type:"success",

@@ -22,7 +22,7 @@
         <el-table-column label="车牌" prop="license"></el-table-column>
         <el-table-column label="容量" prop="capacity"></el-table-column>
         <el-table-column label="损耗" prop="loss"></el-table-column>
-        <el-table-column label="每公里价格" prop="price"></el-table-column>
+        <el-table-column label="购买价格" prop="price"></el-table-column>
         <el-table-column label="购买日期" prop="purchaseDate"></el-table-column>
         <el-table-column label="是否已分配" prop="hasOut"></el-table-column>
         <el-table-column label="操作" width="180px">
@@ -61,7 +61,7 @@
         <el-form-item label="损耗">
           <el-input v-model="addForm.loss"></el-input>
         </el-form-item>
-        <el-form-item label="每公里价格">
+        <el-form-item label="购买价格">
           <el-input v-model="addForm.price"></el-input>
         </el-form-item>
       </el-form>
@@ -80,8 +80,6 @@
       @close="editDialogClosed"
     >
       <!--form表单-->
-      <el-form :model="addForm" :rules="addFormRules" ref="editFormRef" label-width="70px"></el-form>
-
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="所属司机id">
           <el-input v-model="editForm.driverId"></el-input>
@@ -98,7 +96,7 @@
         <el-form-item label="损耗" >
           <el-input v-model="editForm.loss"></el-input>
         </el-form-item>
-        <el-form-item label="每公里价格" >
+        <el-form-item label="购买价格" >
           <el-input v-model="editForm.price"></el-input>
         </el-form-item>
         <el-form-item label="购买日期" >

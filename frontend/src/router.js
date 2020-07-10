@@ -8,6 +8,10 @@ import Carinfo from './components/info/carinfo.vue'
 import Maintenanceinfo from './components/info/maintenanceinfo.vue'
 import Vehiclecostinfo from './components/info/vehiclecostinfo.vue'
 import Order from './components/list/order.vue'
+import Dispatch from './components/list/dispatch.vue'
+import Transportation from './components/list/transportation.vue'
+import Bill from './components/list/bill.vue'
+import Registration from './components/list/registration.vue'
 
 Vue.use(Router)
 
@@ -23,14 +27,22 @@ const router = new Router({
                     path: '/welcome', component: Welcome,
                 }, {
                     path: '/driverinfo', component: Dirverinfo,
-                },{
-                    path: '/carinfo',component: Carinfo
-                },{
-                    path: '/maintenanceinfo',component: Maintenanceinfo
-                },{
-                    path:'/vehiclecostinfo',component: Vehiclecostinfo
-                },{
-                    path: '/order',component: Order
+                }, {
+                    path: '/carinfo', component: Carinfo
+                }, {
+                    path: '/maintenanceinfo', component: Maintenanceinfo
+                }, {
+                    path: '/vehiclecostinfo', component: Vehiclecostinfo
+                }, {
+                    path: '/order', component: Order
+                }, {
+                    path: '/dispatch', component: Dispatch
+                }, {
+                    path: '/transportation', component: Transportation
+                }, {
+                    path: '/bill', component: Bill
+                }, {
+                    path: '/registration', component: Registration
                 }
             ]
         }

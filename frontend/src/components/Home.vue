@@ -100,12 +100,12 @@ export default {
             {
               name: "调度单",
               id: 2,
-              path: "dirverinfo3"
+              path: "dispatch"
             },
             {
               name: "运输单",
-              id: 4,
-              path: "dirverinfo2"
+              id: 3,
+              path: "transportation"
             },
           ]
         },
@@ -116,12 +116,12 @@ export default {
             {
               name: "回车报账",
               id: 1,
-              path: "dirverinfo4"
+              path: "bill"
             },
             {
               name: "出车登记",
-              id: 3,
-              path: "dirverinfo2"
+              id: 2,
+              path: "registration"
             },
           ]
         }

@@ -52,9 +52,9 @@
           <el-select v-model="addForm.carId" placeholder="请选择">
             <el-option
               v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.carId"
+              :label="item.carId"
+              :value="item.carId"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -83,7 +83,7 @@
       @close="editDialogClosed"
     >
       <!--form表单-->
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+      <el-form :model="addForm" :rules="addFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="司机id" prop="driverId">
           <el-input v-model="editForm.driverId"></el-input>
         </el-form-item>
@@ -158,6 +158,7 @@ export default {
   // 转到这个页面时 初始化 列表
   created() {
     this.getUserList();
+    this.getCarList();
   },
   methods: {
     // 获取所有 条目
