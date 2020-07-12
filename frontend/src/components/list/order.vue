@@ -133,16 +133,16 @@
 
     <!--分配方式 对话框-->
     <el-dialog title="分配方式" :visible.sync="distributeDialogVisible" width="50%">
-      <div v-for="(item,name,index) in distributePlanList" :key="index">
-        <el-table :data="distributePlanList[name].cars" border stripe>
+      <div v-for="(item,index) in distributePlanList" :key="index">
+        <el-table :data="distributePlanList[index]" border stripe>
           <el-table-column type="index"></el-table-column>
           <el-table-column label="汽车id" prop="carId"></el-table-column>
           <el-table-column label="容量" prop="capacity"></el-table-column>
           <el-table-column label="每公里损耗" prop="loss"></el-table-column>
-        </el-table>
+        </el-table>A
         <span slot="footer" class="dialog-footer">
-          <el-button @click="distributeDialogVisible= false">取消</el-button>
-          <el-button type="primary" @click="distributeDialogVisible= false">确 定</el-button>
+          <el-button type="primary" @click="distribute(index)">选择</el-button>
+          <el-tag>每公里费用: {{totalCost}}</el-tag>
         </span>
       </div>
     </el-dialog>
@@ -163,38 +163,7 @@ export default {
         weight: "",
         distance: ""
       },
-      distributePlanList: [
-        {
-          cars: [
-            {
-              carId: "1",
-              capacity: "5",
-              loss: 50
-            },
-            {
-              carId: "1",
-              capacity: "5",
-              loss: 50
-            }
-          ],
-          totalCost: 230
-        },
-        {
-          cars: [
-            {
-              carId: "3",
-              capacity: "5",
-              loss: 50
-            },
-            {
-              carId: "4",
-              capacity: "5",
-              loss: 50
-            }
-          ],
-          totalCost: 230
-        }
-      ],
+      distributePlanList: [],
       userlist: [],
       totol: 0,
       //添加对话框显示
@@ -221,7 +190,9 @@ export default {
       //编辑表单
       editForm: {},
       //添加表单验证规则
-      addFormRules: {}
+      addFormRules: {},
+      totalCost: 0,
+      orderId: 0
     };
   },
   created() {
@@ -255,18 +226,34 @@ export default {
       });
       this.editDialogVisible = true;
     },
+    // 显示分配对话框
     showDistributDialog(id, distance, weight) {
-      // const _this=this
+      const _this = this;
       this.distributeDialogVisible = true;
       this.distributeQuryInfo.id = id;
       this.distributeQuryInfo.distance = distance;
       this.distributeQuryInfo.weight = weight;
+      this.orderId = id;
       this.$http
         .post("/orderinfo/distribute", this.distributeQuryInfo)
         .then(res => {
-          console.log(res);
+          _this.totalCost = res.data.totalCost;
+          _this.distributePlanList = res.data.list;
         });
       console.log(id);
+    },
+    distribute(index) {
+      const _this = this;
+      this.$http
+        .post("/orderinfo/chooseplan", {
+          cars: _this.distributePlanList[index],
+          id: this.orderId
+        })
+        .then(res => {
+          console.log(res);
+        });
+      this.distributeDialogVisible = false;
+      console.log(index);
     },
     //添加订单对话框
     addOrder() {

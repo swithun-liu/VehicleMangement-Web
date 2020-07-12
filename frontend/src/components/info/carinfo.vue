@@ -47,6 +47,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination background layout="prev, pager, next" :total="totalPage"  @current-change="handleCurrentChange"></el-pagination>,
     </el-card>
 
     <!--添加司机弹出来的对话框-->
@@ -61,6 +62,9 @@
         </el-form-item>
         <el-form-item label="车牌">
           <el-input v-model="addForm.license"></el-input>
+        </el-form-item>
+        <el-form-item label="容量" >
+          <el-input v-model="addForm.capacity"></el-input>
         </el-form-item>
         <el-form-item label="损耗">
           <el-input v-model="addForm.loss"></el-input>
@@ -84,7 +88,7 @@
       @close="editDialogClosed"
     >
       <!--form表单-->
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+      <el-form :model="addForm" :rules="addFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="所属司机id">
           <el-input v-model="editForm.driverId"></el-input>
         </el-form-item>
@@ -123,10 +127,11 @@
 export default {
   data() {
     return {
+      totalPage: 0,
       queryInfo: {
         query: "",
         pagenum: 1,
-        pagesize: 2
+        pagesize: 6
       },
       userlist: [],
       totol: 0,
@@ -156,17 +161,13 @@ export default {
   methods: {
     getUserList() {
       const _this = this;
-      console.log("请求条件::"+this.queryInfo.query)
       this.$http
         .get("/carinfo", {
           params: this.queryInfo
         })
         .then(res => {
-          console.log("返回结果");
-          console.log(res.data.content)
-          console.log("返回结果结束");
-          _this.userlist = res.data.content
-          console.log(_this.userlist)
+          _this.totalPage=res.data.totalElements;
+          _this.userlist = res.data.content;
         });
     },
     // 关闭 添加用户 对话框是 清空所有填写的数据
@@ -184,11 +185,12 @@ export default {
       });
       this.editDialogVisible = true;
     },
+    //添加司机
     addDriver() {
       const _this = this;
       this.$http.post("/carinfo/adduser", this.addForm).then(res => {
         if (res.data == "成功") {
-          // console.log(res.data)
+          console.log(res.data)
           _this.$message.success("添加成功");
           _this.addDialogVisible = false;
           //重新获取用户列表数据
@@ -243,6 +245,10 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    handleCurrentChange(val){
+      this.queryInfo.pagenum=val;
+      this.getUserList();
     }
   }
 };

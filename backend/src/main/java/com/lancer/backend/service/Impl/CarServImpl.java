@@ -7,8 +7,10 @@ import com.lancer.backend.entity.Car;
 import com.lancer.backend.service.CarServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,8 +56,18 @@ public class CarServImpl implements CarServ {
     }
 
     @Override
-    public Page<Car> findAllbyPage(PageRequest pageRequest) {
+    public Page<Car> findAllbyPage(Example<Car> example, PageRequest pageRequest) {
+        return carInfoRepository.findAll(example,pageRequest);
+    }
+
+    @Override
+    public Page<Car> findAll(PageRequest pageRequest) {
         return carInfoRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public List<Car> findAllbyExample(Example<Car> example,Sort sort) {
+        return carInfoRepository.findAll(example,sort);
     }
 
 }

@@ -42,7 +42,12 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="totalPage"  @current-change="handleCurrentChange"></el-pagination>,
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalPage"
+        @current-change="handleCurrentChange"
+      ></el-pagination>,
     </el-card>
 
     <!--添加 弹出来的对话框-->
@@ -130,11 +135,6 @@ export default {
         pagenum: 1,
         pagesize: 10
       },
-      carqueryInfo: {
-        query: "",
-        pagenum: 1,
-        pagesize: 2
-      },
       userlist: [],
       totol: 0,
       //添加对话框显示
@@ -180,13 +180,11 @@ export default {
     getCarList() {
       const _this = this;
       this.$http
-        .get("/carinfo", {
-          params: this.carqueryInfo
+        .get("/carinfo/all", {
         })
         .then(res => {
           console.log(res.data);
           _this.options = res.data;
-          console.log(_this.userlist);
         });
     },
     // 关闭 添加 对话框时 清空所有填写的数据
