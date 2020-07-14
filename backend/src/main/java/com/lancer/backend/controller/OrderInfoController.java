@@ -45,7 +45,6 @@ public class OrderInfoController {
     List<Long> capacityList = new ArrayList<>();
     List<Integer> numList = new ArrayList<>();
     List<Integer> tempList = new ArrayList<>();
-    int totalCost = -1;
     DistributePlan distributePlan = new DistributePlan();
     List<Car> carListforPlant = new ArrayList<>();
     List<Car> carList = new ArrayList<>();
@@ -138,7 +137,6 @@ public class OrderInfoController {
         List<Car> cars = mapper.convertValue(tempcars, new TypeReference<List<Car>>() {
         });
         String id = (String) datas.get("id");
-        boolean flag = false;
         Dispatch dispatch = new Dispatch();
         Transportation transportation=new Transportation();
         Order order = orderServImpl.getOnebyId(id);
@@ -199,13 +197,19 @@ public class OrderInfoController {
         for (int i = 0; i < numList.size(); i++) {
             tempList.add(0);
         }
+
+            System.out.print("numList:   ");
+        for (int num :numList) {
+            System.out.print(num);
+        }
+        System.out.println();
         caculate(0);
         return distributePlan;
     }
 
     public void caculate(int index) {
         tempList.set(index, 0);
-        for (; tempList.get(index) < numList.get(index); tempList.set(index, tempList.get(index) + 1)) {
+        for (; tempList.get(index) <= numList.get(index); tempList.set(index, tempList.get(index) + 1)) {
             if (index == numList.size() - 1) {
                 computeCost();
             } else {
@@ -218,6 +222,11 @@ public class OrderInfoController {
         List<Car> tempResult = new ArrayList<>();
         int tempCost = 0;
         int tempWeight = 0;
+        System.out.print("方案: ");
+        for (int tempcars :tempList) {
+            System.out.print(tempcars);
+        }
+        System.out.println();
         for (int i = 0; i < tempList.size(); i++) {
             tempWeight += capacityList.get(i) * tempList.get(i);
         }
@@ -234,10 +243,10 @@ public class OrderInfoController {
                     }
                 }
             }
-            if (distributePlan.totalCost == -1 || tempCost == totalCost) {
+            if (distributePlan.totalCost == -1 || tempCost == distributePlan.totalCost) {
                 distributePlan.list.add(tempResult);
                 distributePlan.totalCost = tempCost;
-            } else if (tempCost < totalCost) {
+            } else if (tempCost < distributePlan.totalCost) {
                 distributePlan.list.clear();
                 distributePlan.list.add(tempResult);
                 distributePlan.totalCost = tempCost;

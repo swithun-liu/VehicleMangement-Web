@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>司机信息组件</h3>
+    <h3>卡车信息组件</h3>
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
